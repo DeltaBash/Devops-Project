@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'lyricapp',
     'users',
 ]
-    
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -132,4 +132,3 @@ CSRF_TRUSTED_ORIGINS = [
 
 LOGIN_REDIRECT_URL = 'lyricapp-home'
 LOGIN_URL = "user-login"
-
