@@ -14,7 +14,7 @@ phases:
       - python --version
       - export PYTHONPATH=.
       - pylint $CODEBUILD_SRC_DIR/*.py
-      - pylint $CODEBUILD_SRC_DIR/musicproj/*.py
+      - pylint $CODEBUILD_SRC_DIR/*.py 
 
 artifacts:
   files:
