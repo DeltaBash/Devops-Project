@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+    commands:
+      - pip install --upgrade pip
+      - pip install pylint
+      - pip install django
+
+  pre_build:
+    commands:
+      - python --version
+      - export PYTHONPATH=.
+      - pylint $CODEBUILD_SRC_DIR/*.py
+      - pylint $CODEBUILD_SRC_DIR/musicproj/*.py
+
+artifacts:
+  files:
+    - '/*'

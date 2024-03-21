@@ -1,0 +1,17 @@
+{% extends "lyricapp/base.html" %}
+<!-- -->
+{% block content %}
+<h1>Lyrics:</h1>
+{% for lyric in lyricapp %}
+<div class="card my-4">
+  <div class="card-body">
+    <h5 class="card-title">{{ lyric.title }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{ lyric.writer }}</h6>
+    <p class="card-text">{{ lyric.description }}</p>
+    <h6 class="card-subtitle mb-2 text-muted">{{ lyric.updated_at|date:"F d, Y" }}</h6>
+    <a href="{% url 'lyricapp-detail' lyric.pk %}" class="card-link">View Lyrics</a>
+  </div>
+</div>
+{% endfor %}
+<!-- -->
+{% endblock content %}

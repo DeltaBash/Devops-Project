@@ -1,0 +1,19 @@
+{% extends "lyricapp/base.html" %}
+<!-- -->
+{% block content %}
+<div class="container">
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="mb-4">Are you sure you  want to DELETE? {{object}}</legend>
+            {{ form.as_p }}
+        </fieldset>
+        <div class="form-group py-3">
+            <input class="btn btn-outline-danger" type="submit" value="YES" />
+        </div>
+    </form>
+    <div class="border-top pt-3">
+        <a href="{% url 'lyricapp-home' %}">Cancle</a>
+    </div>
+</div>  
+{% endblock content %}
