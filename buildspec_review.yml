@@ -2,7 +2,7 @@ version: 0.2
 env:
   secrets-manager:
     LOGIN: 8fa9d76a927e022df89aa9dc053d502d0b2ab7e0:sonartoken
-    HOST: https://sonarcloud.io/:HOST
+    HOST: https://sonarcloud.io:HOST
     Organization: DeltaBash:Organization
     Project: Devops-Final:Project
  
