@@ -1,6 +1,5 @@
 version: 0.2
 env:
-  secrets-manager:
     LOGIN: "8fa9d76a927e022df89aa9dc053d502d0b2ab7e0"
     HOST: "https://sonarcloud.io"
     Organization: "DeltaBash"
