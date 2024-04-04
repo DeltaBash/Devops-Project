@@ -37,8 +37,12 @@ phases:
       - cat sonar_scan_log.txt
 
       # Check the quality gate status
-      - curl -u $LOGIN https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project -o result.json
-      - cat result.json
+      - echo "Curl command:"
+      - echo "curl -u $LOGIN https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project -o result.json"
+      - curl -u $LOGIN https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project -o result.json || echo "Curl failed with error code: $?"
+
+      # Display the content of the result file for debugging
+      - cat result.json || echo "Unable to read result.json file"
 
       # Fail the build if the quality gate status is not "OK"
       - if [ "$(jq -r '.projectStatus.status' result.json)" != "OK" ]; then exit 1; fi
