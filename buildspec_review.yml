@@ -10,9 +10,7 @@ env:
 phases:
   pre_build:
     commands:
-      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
-      - unzip sonar-scanner-cli-5.0.1.3006-linux.zip
-      - export PATH=$PATH:$CODEBUILD_SRC_DIR/sonar-scanner-5.0.1.3006-linux/bin/
+      # Pre-build commands
 
   build:
     commands:
@@ -23,32 +21,18 @@ phases:
       - echo "Project=$Project"
       
       # Verify SonarScanner installation and path
-      - ls -l $CODEBUILD_SRC_DIR/sonar-scanner-5.0.1.3006-linux/bin/
       
       # Execute SonarScanner command
-      - sonar-scanner -X \
-        -Dsonar.login=$LOGIN \
-        -Dsonar.host.url=$HOST \
-        -Dsonar.projectKey=$Project \
-        -Dsonar.organization=$Organization \
-        2>&1 | tee sonar_scan_log.txt
 
       # Display the content of the SonarScanner log file for debugging
-      - cat sonar_scan_log.txt
-
+      
       # Check the quality gate status
-      - echo "Curl command:"
-      - echo "curl -u $LOGIN https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project -o result.json"
-      - |
-        curl -u $LOGIN https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project -o result.json || echo "Curl failed with error code: $?"
-
-      # Display the content of the result file for debugging
+      - echo "Content of result.json:"
       - cat result.json || echo "Unable to read result.json file"
+      - echo "Value of projectStatus.status:"
+      - jq -r '.projectStatus.status' result.json || echo "Unable to extract projectStatus.status from result.json"
 
-      # Check the quality gate status and fail the build if not "OK"
-      - status=$(jq -r '.projectStatus.status' result.json)
-      - echo "Quality gate status: $status"
-      - if [ "$status" != "OK" ]; then
-          echo "Quality gate status is not OK. Failing the build.";
-          exit 1;
+      # Fail the build if the quality gate status is not "OK"
+      - if [ "$(jq -r '.projectStatus.status' result.json)" != "OK" ]; then
+          exit 1
         fi
