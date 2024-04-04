@@ -26,8 +26,7 @@ phases:
       - ls -l $CODEBUILD_SRC_DIR/sonar-scanner-5.0.1.3006-linux/bin/
       
       # Execute SonarScanner command
-      - |
-        sonar-scanner -X \
+      - sonar-scanner -X \
         -Dsonar.login=$LOGIN \
         -Dsonar.host.url=$HOST \
         -Dsonar.projectKey=$Project \
@@ -46,8 +45,10 @@ phases:
       # Display the content of the result file for debugging
       - cat result.json || echo "Unable to read result.json file"
 
-      # Fail the build if the quality gate status is not "OK"
-      - |
-        if [ "$(jq -r '.projectStatus.status' result.json)" != "OK" ]; then
-          exit 1
+      # Check the quality gate status and fail the build if not "OK"
+      - status=$(jq -r '.projectStatus.status' result.json)
+      - echo "Quality gate status: $status"
+      - if [ "$status" != "OK" ]; then
+          echo "Quality gate status is not OK. Failing the build.";
+          exit 1;
         fi
