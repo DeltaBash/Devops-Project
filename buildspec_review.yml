@@ -26,11 +26,15 @@ phases:
       - ls -l $CODEBUILD_SRC_DIR/sonar-scanner-5.0.1.3006-linux/bin/
       
       # Execute SonarScanner command
-      - sonar-scanner \
+      - sonar-scanner -X \
         -Dsonar.login=$LOGIN \
         -Dsonar.host.url=$HOST \
         -Dsonar.projectKey=$Project \
-        -Dsonar.organization=$Organization
+        -Dsonar.organization=$Organization \
+        2>&1 | tee sonar_scan_log.txt
+
+      # Display the content of the SonarScanner log file for debugging
+      - cat sonar_scan_log.txt
 
       # Check the quality gate status
       - curl -u $LOGIN https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project -o result.json
