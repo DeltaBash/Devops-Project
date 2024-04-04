@@ -12,7 +12,7 @@ phases:
     commands:
       - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
       - unzip sonar-scanner-cli-5.0.1.3006-linux.zip
-      - export PATH=$PATH:/sonar-scanner-5.0.1.3006-linux/bin/
+      - export PATH=$PATH:$CODEBUILD_SRC_DIR/sonar-scanner-5.0.1.3006-linux/bin/
 
   build:
     commands:
@@ -23,10 +23,10 @@ phases:
       - echo "Project=$Project"
       
       # Verify SonarScanner installation and path
-      - ls -l /sonar-scanner-5.0.1.3006-linux/bin/
+      - ls -l $CODEBUILD_SRC_DIR/sonar-scanner-5.0.1.3006-linux/bin/
       
       # Execute SonarScanner command
-      - /sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner \
+      - sonar-scanner \
         -Dsonar.login=$LOGIN \
         -Dsonar.host.url=$HOST \
         -Dsonar.projectKey=$Project \
