@@ -16,7 +16,17 @@ phases:
 
   build:
     commands:
-      - sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner \
+      # Print environment variables for debugging
+      - echo "LOGIN=$LOGIN"
+      - echo "HOST=$HOST"
+      - echo "Organization=$Organization"
+      - echo "Project=$Project"
+      
+      # Verify SonarScanner installation and path
+      - ls -l /sonar-scanner-5.0.1.3006-linux/bin/
+      
+      # Execute SonarScanner command
+      - /sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner \
         -Dsonar.login=$LOGIN \
         -Dsonar.host.url=$HOST \
         -Dsonar.projectKey=$Project \
