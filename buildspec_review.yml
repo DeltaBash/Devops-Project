@@ -26,5 +26,5 @@ phases:
       - curl -u $LOGIN https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project -o result.json
       - cat result.json
 
-      # Optionally, fail the build if the quality gate status is not "OK"
-      # - if [ "$(jq -r '.projectStatus.status' result.json)" != "OK" ]; then exit 1; fi
+      # Fail the build if the quality gate status is not "OK"
+      - if [ "$(jq -r '.projectStatus.status' result.json)" != "OK" ]; then exit 1; fi
